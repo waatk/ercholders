@@ -16,7 +16,7 @@ ETHERSCAN_API_KEY = 'apply_for_a_free_one'
 ETHERSCAN_COOLDOWN = 1.0 # seconds, works well for no key, 0.2 with free key
 
 NFT_CONTRACT_ADDRESS = '0x343f999eaacdfa1f201fb8e43ebb35c99d9ae0c1' # lasc baby
-MINT_BLOCK = 
+MINT_BLOCK = 12837477
 COLLECTION_SIZE = 10001
 
 #############################################################################
