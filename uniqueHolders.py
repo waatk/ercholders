@@ -16,6 +16,8 @@ ETHERSCAN_API_KEY = 'apply_for_a_free_one'
 ETHERSCAN_COOLDOWN = 1.0 # seconds, works well for no key, 0.2 with free key
 
 NFT_CONTRACT_ADDRESS = '0x343f999eaacdfa1f201fb8e43ebb35c99d9ae0c1' # lasc baby
+MINT_BLOCK = 
+COLLECTION_SIZE = 10001
 
 #############################################################################
 ### ETHERSCAN API FUNCTIONS
@@ -75,13 +77,17 @@ class Transfer:
         print('\t\tFrom:\t{}'.format(self.maker))
         print('\t\t  To:\t{}'.format(self.taker))   
 
+#############################################################################
+### RUN PROGRAM
+#############################################################################        
+        
 if __name__ == '__main__':
     
     current_block = int(getCurrentBlock())
-    starting_block = 12837477
+    starting_block = MINT_BLOCK
     increment = 1000
     
-    holders_map = np.empty(10001, dtype='<U64')
+    holders_map = np.empty(COLLECTION_SIZE, dtype='<U64')
     
     while starting_block < current_block:
         print('Scanning from {} to {}, increment={}'.format(
