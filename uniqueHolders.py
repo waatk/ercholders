@@ -12,8 +12,8 @@ import time
 ### API KEYS AND CONTRACTS
 #############################################################################
 
-ETHERSCAN_API_KEY = 'apply_for_a_free_one'
-ETHERSCAN_COOLDOWN = 1.0 # seconds, works well for no key, 0.2 with free key
+ETHERSCAN_API_KEY = 'your_api_key'
+ETHERSCAN_COOLDOWN = 0.25 # > 0.2 seconds with free key
 
 NFT_CONTRACT_ADDRESS = '0x343f999eaacdfa1f201fb8e43ebb35c99d9ae0c1' # lasc baby
 MINT_BLOCK = 12837477
@@ -32,13 +32,13 @@ def getCurrentBlock():
                'blockno':'99999999',
                'apikey':ETHERSCAN_API_KEY}
     r = requests.get('https://api.etherscan.io/api', params=payload)
+    print(r.json()['message'])
     current_block = r.json()['result']['CurrentBlock']
     print('\t{}'.format(current_block))
     time.sleep(ETHERSCAN_COOLDOWN)
     return current_block
 
 def getTransfers(from_block, to_block='latest'):
-    #print('Checking for token transfers ...')
     payload = {'module':'logs',
                'action':'getLogs',
                'fromBlock':str(int(from_block)),
@@ -47,6 +47,7 @@ def getTransfers(from_block, to_block='latest'):
                'topic0':transfer_topic,
                'apikey':ETHERSCAN_API_KEY}
     r = requests.get('https://api.etherscan.io/api', params=payload)
+    print(r.json()['message'])
     time.sleep(ETHERSCAN_COOLDOWN)
     return r.json()['result']
 
@@ -101,7 +102,7 @@ if __name__ == '__main__':
             print('\tWARNING: MAX TRANSFER LOGS EXCEEDED')
             increment = int(0.5*increment)
     
-    f = open('holders_map.txt', 'w')
+    f = open('holders_map_{}.txt'.format(current_block), 'w')
     for number, address in enumerate(holders_map):
         f.write('{}, {}\n'.format(number+1,address))
     f.close()  
@@ -111,7 +112,7 @@ if __name__ == '__main__':
         if address not in unique_holders:
             unique_holders.append(address)
             
-    f = open('unique_holders.txt', 'w')
+    f = open('unique_holders_{}.txt'.format(current_block), 'w')
     for address in unique_holders:
         f.write(address+'\n')
     f.close()          
